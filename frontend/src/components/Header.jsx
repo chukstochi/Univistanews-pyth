@@ -32,7 +32,17 @@ export default function Header() {
       <div className="masthead">
         <div className="container">
           <NavLink to="/" className="brand">Univista<span>News</span></NavLink>
-          <form onSubmit={handleSearch} style={{ display: "flex", gap: 8 }}>
+                    <form onSubmit={handleSearch} className="search-form">
+            <input
+              type="text"
+              placeholder="Search news…"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+            <button type="submit" className="btn btn-secondary search-btn">Search</button>
+          </form>
+          {/* <form onSubmit={handleSearch} style={{ display: "flex", gap: 8 }}>
             <input
               type="text"
               placeholder="Search news…"
@@ -41,7 +51,7 @@ export default function Header() {
               style={{ padding: "9px 12px", border: "1px solid var(--rule)", width: 220, fontSize: 14 }}
             />
             <button type="submit" className="btn btn-secondary" style={{ padding: "9px 16px" }}>Search</button>
-          </form>
+          </form> */}
         </div>
       </div>
 

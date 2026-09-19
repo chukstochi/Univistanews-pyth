@@ -40,33 +40,24 @@ export default function Home() {
   return (
     <Layout>
       <div className="container">
-        {/* Latest news — two sections, left image-top / right image-right */}
+        {/* Latest news — up to 6 articles, alternating image-left / image-right layout */}
         <h2 className="section-title">Latest News</h2>
         <div className="latest-grid">
-          {latest[0] && (
-            <article className="latest-card">
-              {latest[0].image_url && <img src={latest[0].image_url} alt={latest[0].title} />}
+          {latest.slice(0, 6).map((article, idx) => (
+            <article
+              className={`latest-card${idx % 2 === 1 ? " reverse" : ""}`}
+              key={article.id}
+            >
+              {article.image_url && <img src={article.image_url} alt={article.title} />}
               <div className="latest-body">
-                <h3><Link to={`/article/${latest[0].slug}`}>{latest[0].title}</Link></h3>
+                <h3><Link to={`/article/${article.slug}`}>{article.title}</Link></h3>
                 <div className="byline">
-                  By {latest[0].author?.name || "Univista News"} · {formatDateTime(latest[0].created_at)}
+                  By {article.author?.name || "Univista News"} · {formatDateTime(article.created_at)}
                 </div>
-                <p>{latest[0].summary}</p>
+                <p>{article.summary}</p>
               </div>
             </article>
-          )}
-          {latest[1] && (
-            <article className="latest-card reverse">
-              {latest[1].image_url && <img src={latest[1].image_url} alt={latest[1].title} />}
-              <div className="latest-body">
-                <h3><Link to={`/article/${latest[1].slug}`}>{latest[1].title}</Link></h3>
-                <div className="byline">
-                  By {latest[1].author?.name || "Univista News"} · {formatDateTime(latest[1].created_at)}
-                </div>
-                <p>{latest[1].summary}</p>
-              </div>
-            </article>
-          )}
+          ))}
         </div>
 
         {latest.length === 0 && (

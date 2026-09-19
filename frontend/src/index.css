@@ -644,6 +644,25 @@ footer .brand span {
   color: #fff;
 }
 
+.footer-social {
+  display: flex;
+  gap: 16px;
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.footer-social a {
+  color: #aebdd0;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.footer-social a:hover {
+  color: #fff;
+}
+
 /* ---------- Misc ---------- */
 
 .page-wrap {
@@ -667,6 +686,69 @@ footer .brand span {
   padding: 60px 20px;
   text-align: center;
   color: var(--ink-soft);
+}
+
+.search-form {
+  display: flex;
+  gap: 8px;
+}
+
+.search-input {
+  padding: 9px 12px;
+  border: 1px solid var(--rule);
+  width: 220px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.search-btn {
+  padding: 9px 16px;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .masthead .container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .brand {
+    font-size: 26px;
+    text-align: center;
+  }
+
+  .search-form {
+    width: 100%;
+  }
+
+  .search-input {
+    flex: 1;
+    width: auto;
+  }
+
+  .utility-bar .container {
+    flex-direction: column;
+    height: auto;
+    padding: 6px 0;
+    gap: 2px;
+    text-align: center;
+  }
+
+  .main-nav ul {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .main-nav li a, .main-nav li button {
+    padding: 12px 14px;
+    white-space: nowrap;
+  }
+
+  .main-nav .nav-right {
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 900px) {
