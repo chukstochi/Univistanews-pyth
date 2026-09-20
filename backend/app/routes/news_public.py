@@ -55,12 +55,12 @@ def breaking_news():
 
 
 @news_public_bp.route("/latest", methods=["GET"])
-def latest_two():
-    """Powers the two 'latest news' hero sections (left image-top, right image-right)."""
+def latest_news():
+    """Powers the Latest News section: 1 featured + 3 below it + 6 in the sidebar."""
     items = (News.query
              .filter_by(is_published=True)
              .order_by(News.created_at.desc())
-             .limit(2)
+             .limit(10)
              .all())
     return jsonify([n.to_dict() for n in items]), 200
 

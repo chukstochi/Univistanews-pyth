@@ -40,29 +40,55 @@ export default function Home() {
   return (
     <Layout>
       <div className="container">
-        {/* Latest news — up to 6 articles, alternating image-left / image-right layout */}
+               {/* Latest news — featured story + 3 below it on the left, headline list on the right */}
         <h2 className="section-title">Latest News</h2>
-        <div className="latest-grid">
-          {latest.slice(0, 6).map((article, idx) => (
-            <article
-              className={`latest-card${idx % 2 === 1 ? " reverse" : ""}`}
-              key={article.id}
-            >
-              {article.image_url && <img src={article.image_url} alt={article.title} />}
-              <div className="latest-body">
-                <h3><Link to={`/article/${article.slug}`}>{article.title}</Link></h3>
-                <div className="byline">
-                  By {article.author?.name || "Univista News"} · {formatDateTime(article.created_at)}
+        {latest.length > 0 && (
+          <div className="latest-layout">
+            <div className="latest-main">
+              <article className="latest-featured">
+                {latest[0].image_url && <img src={latest[0].image_url} alt={latest[0].title} />}
+                <div className="latest-body">
+                  <h3><Link to={`/article/${latest[0].slug}`}>{latest[0].title}</Link></h3>
+                  <div className="byline">
+                    By {latest[0].author?.name || "Univista News"} · {formatDateTime(latest[0].created_at)}
+                  </div>
+                  <p>{latest[0].summary}</p>
                 </div>
-                <p>{article.summary}</p>
+              </article>
+
+              <div className="latest-trio">
+                {latest.slice(1, 4).map((article) => (
+                  <article className="trio-card" key={article.id}>
+                    {article.image_url && <img src={article.image_url} alt={article.title} />}
+                    <div className="latest-body">
+                      <h4><Link to={`/article/${article.slug}`}>{article.title}</Link></h4>
+                      <div className="byline">{formatDateTime(article.created_at)}</div>
+                    </div>
+                  </article>
+                ))}
               </div>
-            </article>
-          ))}
-        </div>
+            </div>
+
+            <div className="latest-sidebar">
+              {latest.slice(4, 10).map((article) => (
+                <Link to={`/article/${article.slug}`} className="sidebar-item" key={article.id}>
+                  <div className="sidebar-text">
+                    <h4>{article.title}</h4>
+                    <span className="byline">{formatDateTime(article.created_at)}</span>
+                  </div>
+                  {article.image_url && (
+                    <img src={article.image_url} alt={article.title} className="sidebar-thumb" />
+                  )}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {latest.length === 0 && (
           <p className="empty-state">No articles published yet. Check back soon.</p>
         )}
+
 
         {/* One section per category */}
         {categoryPreviews.map(({ category, items }) => (
