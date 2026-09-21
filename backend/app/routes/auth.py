@@ -1,12 +1,17 @@
+import logging
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token
 from app.models.user import User
 from app.utils.decorators import get_current_user
+from app.extensions import limiter
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/api/auth")
 
+security_logger = logging.getLogger("security")
+
 
 @auth_bp.route("/login", methods=["POST"])
+@limiter.limit("5 per minute")
 def login():
     """
     Single login endpoint used for BOTH admin and authors.
@@ -23,8 +28,17 @@ def login():
     user = User.query.filter_by(email=email).first()
 
     if not user or not user.is_active or not user.check_password(password):
+        security_logger.warning(
+            "Failed login attempt for email=%s from ip=%s",
+            email, request.remote_addr,
+        )
         # Deliberately vague message so we don't leak whether the email exists
         return jsonify({"error": "Invalid credentials"}), 401
+
+    security_logger.info(
+        "Successful login for user_id=%s from ip=%s",
+        user.id, request.remote_addr,
+    )
 
     token = create_access_token(
         identity=str(user.id),

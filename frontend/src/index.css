@@ -85,10 +85,8 @@ button {
   letter-spacing: -0.5px;
   color: var(--navy);
 }
+ .brand img { height: 56px; display: block; }
 
-.brand span {
-  color: var(--crimson);
-}
 
 .main-nav {
   background: var(--navy);
@@ -760,6 +758,8 @@ footer .brand span {
 .footer-social a:hover {
   color: #fff;
 }
+footer.brand img {
+   height: 42px; }
 
 /* ---------- Misc ---------- */
 

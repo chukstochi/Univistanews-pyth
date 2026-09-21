@@ -31,7 +31,7 @@ export default function Header() {
 
       <div className="masthead">
         <div className="container">
-          <NavLink to="/" className="brand">Univista<span>News</span></NavLink>
+         <NavLink to="/" className="brand"><img src="/logo.jpg" alt="Univista News Hub" /></NavLink>
                     <form onSubmit={handleSearch} className="search-form">
             <input
               type="text"
@@ -42,16 +42,7 @@ export default function Header() {
             />
             <button type="submit" className="btn btn-secondary search-btn">Search</button>
           </form>
-          {/* <form onSubmit={handleSearch} style={{ display: "flex", gap: 8 }}>
-            <input
-              type="text"
-              placeholder="Search news…"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ padding: "9px 12px", border: "1px solid var(--rule)", width: 220, fontSize: 14 }}
-            />
-            <button type="submit" className="btn btn-secondary" style={{ padding: "9px 16px" }}>Search</button>
-          </form> */}
+         
         </div>
       </div>
 
@@ -63,19 +54,15 @@ export default function Header() {
             <li><NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>About Us</NavLink></li>
             <li><NavLink to="/contact" className={({ isActive }) => (isActive ? "active" : "")}>Contact Us</NavLink></li>
             <li className="nav-right">
-              {isAuthenticated ? (
-                <>
-                  <NavLink to={isAdmin ? "/admin" : "/author"} className={({ isActive }) => (isActive ? "active" : "")}>
-                    {isAdmin ? "Admin Dashboard" : `Hi, ${user?.name?.split(" ")[0]}`}
-                  </NavLink>
-                </>
-              ) : (
-                <NavLink to="/login" className={({ isActive }) => (isActive ? "active" : "")}>Login</NavLink>
+              {isAuthenticated && (
+                <NavLink to={isAdmin ? "/admin" : "/author"} className={({ isActive }) => (isActive ? "active" : "")}>
+                  {isAdmin ? "Admin Dashboard" : `Hi, ${user?.name?.split(" ")[0]}`}
+                </NavLink>
               )}
             </li>
-            {isAuthenticated && (
+             {isAuthenticated && (
               <li><button onClick={logout}>Logout</button></li>
-            )}
+            )} 
           </ul>
         </div>
       </nav>

@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from app.config import Config
-from app.extensions import db, migrate, jwt, cors
+from app.extensions import db, migrate, jwt, cors, limiter
 
 
 def create_app():
@@ -10,6 +10,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
+    limiter.init_app(app)
 
     allowed_origins = [o.strip() for o in app.config["FRONTEND_ORIGIN"].split(",") if o.strip()]
     cors.init_app(app, resources={r"/api/*": {"origins": allowed_origins}}, supports_credentials=True)
