@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import client from "../api/client";
 import { getYouTubeEmbedUrl, hasVideo } from "../utils/youtube";
+import AdSlot from "../components/AdSlot";
 
 function formatDateTime(iso) {
   if (!iso) return "";
@@ -70,6 +71,8 @@ export default function ArticlePage() {
                 <img className="article-image" src={article.image_url} alt={article.title} />
               )
             )}
+
+            {/* <AdSlot size="inArticle" /> */}
 
             <div className="article-body">{article.body}</div>
 

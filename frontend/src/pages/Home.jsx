@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import NewsCard from "../components/NewsCard";
 import client from "../api/client";
 import { getThumbnailUrl, hasVideo } from "../utils/youtube";
+import AdSlot from "../components/AdSlot";
 
 function formatDateTime(iso) {
   if (!iso) return "";
@@ -98,26 +99,31 @@ export default function Home() {
           </div>
         )}
 
+        {/* <AdSlot size="banner" /> */}
+
         {latest.length === 0 && (
           <p className="empty-state">No articles published yet. Check back soon.</p>
         )}
 
-        {categoryPreviews.map(({ category, items }) => (
-          <section key={category.id}>
-            <div className="cat-section-head">
-              <h2>{category.name}</h2>
-              <Link to={`/category/${category.slug}`}>See all →</Link>
-            </div>
-            {items.length > 0 ? (
-              <div className="cat-grid">
-                {items.map((article) => (
-                  <NewsCard key={article.id} article={article} />
-                ))}
+        {categoryPreviews.map(({ category, items }, index) => (
+          <div key={category.id}>
+            <section>
+              <div className="cat-section-head">
+                <h2>{category.name}</h2>
+                <Link to={`/category/${category.slug}`}>See all →</Link>
               </div>
-            ) : (
-              <p className="empty-state" style={{ padding: "10px 0" }}>No {category.name} articles yet.</p>
-            )}
-          </section>
+              {items.length > 0 ? (
+                <div className="cat-grid">
+                  {items.map((article) => (
+                    <NewsCard key={article.id} article={article} />
+                  ))}
+                </div>
+              ) : (
+                <p className="empty-state" style={{ padding: "10px 0" }}>No {category.name} articles yet.</p>
+              )}
+            </section>
+            {/* {index % 2 === 1 && <AdSlot size="rectangle" />} */}
+          </div>
         ))}
       </div>
     </Layout>
