@@ -24,6 +24,14 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
+  const updateUser = useCallback((patch) => {
+    setUser((prev) => {
+      const updated = { ...prev, ...patch };
+      localStorage.setItem("univista_user", JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
   const value = {
     user,
     isAuthenticated: !!user,
@@ -31,6 +39,7 @@ export function AuthProvider({ children }) {
     isAuthor: user?.role === "author",
     login,
     logout,
+    updateUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

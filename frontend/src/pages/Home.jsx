@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import NewsCard from "../components/NewsCard";
 import client from "../api/client";
+import { getThumbnailUrl, hasVideo } from "../utils/youtube";
 
 function formatDateTime(iso) {
   if (!iso) return "";
@@ -40,13 +41,17 @@ export default function Home() {
   return (
     <Layout>
       <div className="container">
-               {/* Latest news — featured story + 3 below it on the left, headline list on the right */}
         <h2 className="section-title">Latest News</h2>
         {latest.length > 0 && (
           <div className="latest-layout">
             <div className="latest-main">
               <article className="latest-featured">
-                {latest[0].image_url && <img src={latest[0].image_url} alt={latest[0].title} />}
+                {getThumbnailUrl(latest[0]) && (
+                  <div className="thumb-wrap">
+                    <img src={getThumbnailUrl(latest[0])} alt={latest[0].title} />
+                    {hasVideo(latest[0]) && <span className="play-badge" />}
+                  </div>
+                )}
                 <div className="latest-body">
                   <h3><Link to={`/article/${latest[0].slug}`}>{latest[0].title}</Link></h3>
                   <div className="byline">
@@ -59,7 +64,12 @@ export default function Home() {
               <div className="latest-trio">
                 {latest.slice(1, 4).map((article) => (
                   <article className="trio-card" key={article.id}>
-                    {article.image_url && <img src={article.image_url} alt={article.title} />}
+                    {getThumbnailUrl(article) && (
+                      <div className="thumb-wrap">
+                        <img src={getThumbnailUrl(article)} alt={article.title} />
+                        {hasVideo(article) && <span className="play-badge small" />}
+                      </div>
+                    )}
                     <div className="latest-body">
                       <h4><Link to={`/article/${article.slug}`}>{article.title}</Link></h4>
                       <div className="byline">{formatDateTime(article.created_at)}</div>
@@ -76,8 +86,11 @@ export default function Home() {
                     <h4>{article.title}</h4>
                     <span className="byline">{formatDateTime(article.created_at)}</span>
                   </div>
-                  {article.image_url && (
-                    <img src={article.image_url} alt={article.title} className="sidebar-thumb" />
+                  {getThumbnailUrl(article) && (
+                    <div className="thumb-wrap">
+                      <img src={getThumbnailUrl(article)} alt={article.title} className="sidebar-thumb" />
+                      {hasVideo(article) && <span className="play-badge small" />}
+                    </div>
                   )}
                 </Link>
               ))}
@@ -89,8 +102,6 @@ export default function Home() {
           <p className="empty-state">No articles published yet. Check back soon.</p>
         )}
 
-
-        {/* One section per category */}
         {categoryPreviews.map(({ category, items }) => (
           <section key={category.id}>
             <div className="cat-section-head">

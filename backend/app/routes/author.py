@@ -43,6 +43,7 @@ def create_news():
         summary=data.get("summary"),
         body=body,
         image_url=data.get("image_url"),
+        video_url=data.get("video_url"),
         is_breaking=bool(data.get("is_breaking", False)),
         is_published=bool(data.get("is_published", True)),
         category_id=category_id,
@@ -79,7 +80,7 @@ def update_news(news_id):
         news.title = data["title"].strip()
         news.slug = _unique_slug(news.title)
 
-    for field in ["summary", "body", "image_url"]:
+    for field in ["summary", "body", "image_url", "video_url"]:
         if field in data:
             setattr(news, field, data[field])
 

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { getThumbnailUrl, hasVideo } from "../utils/youtube";
 
 function formatDate(iso) {
   if (!iso) return "";
@@ -9,7 +10,12 @@ function formatDate(iso) {
 export default function NewsCard({ article }) {
   return (
     <div className="news-card">
-      {article.image_url && <img src={article.image_url} alt={article.title} />}
+      {getThumbnailUrl(article) && (
+        <div className="thumb-wrap">
+          <img src={getThumbnailUrl(article)} alt={article.title} />
+          {hasVideo(article) && <span className="play-badge small" />}
+        </div>
+      )}
       <h4><Link to={`/article/${article.slug}`}>{article.title}</Link></h4>
       <div className="byline">
         By {article.author?.name || "Univista News"} · {formatDate(article.created_at)}

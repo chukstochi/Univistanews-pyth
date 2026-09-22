@@ -59,7 +59,7 @@ export default function Footer() {
             <Link to="/category/politics">Politics</Link>
             <Link to="/category/sports">Sports</Link>
             <Link to="/category/technology">Technology</Link>
-            <Link to="/login">Staff Login</Link>
+            {/* <Link to="/login">Staff Login</Link> */}
           </div>
         </div>
 

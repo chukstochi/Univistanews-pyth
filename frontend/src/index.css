@@ -1,5 +1,9 @@
+/* ==========================================================================
+   ROOT VARIABLES
+   ========================================================================== */
+
 :root {
-  --navy: #0f1b2d; 
+  --navy: #0f1b2d;
   --navy-light: #1c2f4a;
   --paper: #f7f6f2;
   --ink: #1a1a1a;
@@ -11,6 +15,10 @@
   --serif: Georgia, "Times New Roman", Times, serif;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
+
+/* ==========================================================================
+   BASE / RESET
+   ========================================================================== */
 
 * {
   box-sizing: border-box;
@@ -50,7 +58,9 @@ button {
   padding: 0 20px;
 }
 
-/* ---------- Masthead ---------- */
+/* ==========================================================================
+   HEADER: UTILITY BAR / MASTHEAD / MAIN NAV / CATEGORY STRIP
+   ========================================================================== */
 
 .utility-bar {
   background: var(--navy);
@@ -85,8 +95,11 @@ button {
   letter-spacing: -0.5px;
   color: var(--navy);
 }
- .brand img { height: 56px; display: block; }
 
+.brand img {
+  height: 56px;
+  display: block;
+}
 
 .main-nav {
   background: var(--navy);
@@ -95,6 +108,7 @@ button {
 .main-nav ul {
   list-style: none;
   display: flex;
+  justify-content: center;
   margin: 0;
   padding: 0;
   gap: 2px;
@@ -126,8 +140,6 @@ button {
   margin-left: auto;
 }
 
-/* ---------- Category strip ---------- */
-
 .category-strip {
   background: #fff;
   border-bottom: 1px solid var(--rule);
@@ -158,7 +170,9 @@ button {
   border-bottom-color: var(--crimson);
 }
 
-/* ---------- Ticker ---------- */
+/* ==========================================================================
+   BREAKING NEWS TICKER
+   ========================================================================== */
 
 .ticker-wrap {
   background: var(--crimson);
@@ -193,7 +207,7 @@ button {
 .ticker-track {
   display: flex;
   white-space: nowrap;
-  animation: ticker-scroll 35s linear infinite;
+  animation: ticker-scroll 90s linear infinite;
 }
 
 .ticker-track span {
@@ -207,14 +221,52 @@ button {
   to { transform: translateX(-50%); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ticker-track {
-    animation: none;
-    overflow-x: auto;
-  }
+/* ==========================================================================
+   YOUTUBE THUMBNAIL PLAY BADGE
+   ========================================================================== */
+
+.thumb-wrap {
+  position: relative;
 }
 
-/* ---------- Hero / latest two-up ---------- */
+.play-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 68px;
+  height: 48px;
+  border-radius: 14px;
+  background: #ff0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.play-badge::after {
+  content: '';
+  border-style: solid;
+  border-width: 11px 0 11px 19px;
+  border-color: transparent transparent transparent #fff;
+  margin-left: 3px;
+}
+
+.play-badge.small {
+  width: 40px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+.play-badge.small::after {
+  border-width: 7px 0 7px 12px;
+  margin-left: 2px;
+}
+
+/* ==========================================================================
+   HOMEPAGE: LATEST NEWS (featured + trio + sidebar)
+   ========================================================================== */
 
 .section-title {
   font-family: var(--serif);
@@ -226,35 +278,6 @@ button {
   margin: 36px 0 18px;
 }
 
-/* .latest-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-}
-
-.latest-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.latest-card.reverse {
-  direction: rtl;
-}
-
-.latest-card.reverse .latest-body {
-  direction: ltr;
-}
-
-.latest-card img {
-  width: 100%;
-  height: 260px;
-  object-fit: cover;
-  background: var(--rule);
-}
-
-.latest-body {
-  padding-top: 14px;
-} */
 .latest-layout {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -270,6 +293,67 @@ button {
 
 .latest-featured .latest-body {
   padding-top: 14px;
+}
+
+.latest-body h3 {
+  font-family: var(--serif);
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+
+.latest-body h3 a:hover {
+  color: var(--crimson);
+}
+
+.latest-body p {
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+.byline {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.latest-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.latest-trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.trio-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  background: var(--rule);
+  margin-bottom: 8px;
+}
+
+.trio-card h4 {
+  font-family: var(--serif);
+  font-size: 14.5px;
+  line-height: 1.3;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+
+.trio-card:hover h4,
+.trio-card h4 a:hover {
+  color: var(--crimson);
+}
+
+.trio-card .byline {
+  font-size: 11px;
+  margin: 0;
 }
 
 .latest-sidebar {
@@ -316,68 +400,10 @@ button {
   flex-shrink: 0;
   background: var(--rule);
 }
-.latest-body h3 {
-  font-family: var(--serif);
-  font-size: 24px;
-  line-height: 1.25;
-  margin: 0 0 8px;
-  color: var(--ink);
-}
 
-.latest-body h3 a:hover {
-  color: var(--crimson);
-}
-
-.byline {
-  font-size: 12.5px;
-  color: var(--ink-soft);
-  margin-bottom: 8px;
-}
-
-.latest-body p {
-  color: var(--ink-soft);
-  font-size: 15px;
-}
-
-.latest-main {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.latest-trio {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-
-.trio-card img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  background: var(--rule);
-  margin-bottom: 8px;
-}
-
-.trio-card h4 {
-  font-family: var(--serif);
-  font-size: 14.5px;
-  line-height: 1.3;
-  margin: 0 0 4px;
-  color: var(--ink);
-}
-
-.trio-card:hover h4,
-.trio-card h4 a:hover {
-  color: var(--crimson);
-}
-
-.trio-card .byline {
-  font-size: 11px;
-  margin: 0;
-}
-
-/* ---------- Category home sections ---------- */
+/* ==========================================================================
+   CATEGORY HOMEPAGE SECTIONS + NEWS CARD
+   ========================================================================== */
 
 .cat-section-head {
   display: flex;
@@ -430,7 +456,9 @@ button {
   font-size: 11.5px;
 }
 
-/* ---------- Article page ---------- */
+/* ==========================================================================
+   ARTICLE PAGE
+   ========================================================================== */
 
 .article-page {
   max-width: 760px;
@@ -479,6 +507,23 @@ button {
   margin-bottom: 24px;
 }
 
+.article-video {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  margin-bottom: 24px;
+  background: #000;
+}
+
+.article-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .article-body {
   font-family: var(--serif);
   font-size: 19px;
@@ -501,7 +546,9 @@ button {
   color: var(--ink-soft);
 }
 
-/* ---------- Forms / auth ---------- */
+/* ==========================================================================
+   FORMS / AUTH / BUTTONS / ALERTS
+   ========================================================================== */
 
 .auth-page {
   max-width: 420px;
@@ -575,6 +622,32 @@ button {
   color: var(--navy);
 }
 
+.form-sticky-bar {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  border-top: 2px solid var(--navy);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 20px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+.form-sticky-bar label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.form-sticky-bar .btn {
+  margin-left: auto;
+}
+
 .btn {
   display: inline-block;
   padding: 11px 22px;
@@ -621,7 +694,9 @@ button {
   border-left: 3px solid #226b22;
 }
 
-/* ---------- Admin/Author dashboard ---------- */
+/* ==========================================================================
+   ADMIN / AUTHOR DASHBOARD
+   ========================================================================== */
 
 .dashboard {
   display: grid;
@@ -704,7 +779,9 @@ button {
 .badge.admin { background: var(--navy); color: #fff; }
 .badge.author { background: #e5e2d9; color: var(--ink); }
 
-/* ---------- Footer ---------- */
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
 
 footer {
   background: var(--navy);
@@ -721,6 +798,10 @@ footer .brand {
 
 footer .brand span {
   color: #ff6b6b;
+}
+
+footer .brand img {
+  height: 42px;
 }
 
 .footer-grid {
@@ -758,10 +839,10 @@ footer .brand span {
 .footer-social a:hover {
   color: #fff;
 }
-footer.brand img {
-   height: 42px; }
 
-/* ---------- Misc ---------- */
+/* ==========================================================================
+   MISC (page wrappers, static pages, loading/empty states, search)
+   ========================================================================== */
 
 .page-wrap {
   min-height: 60vh;
@@ -802,6 +883,31 @@ footer.brand img {
 .search-btn {
   padding: 9px 16px;
   white-space: nowrap;
+}
+
+/* ==========================================================================
+   MEDIA QUERIES (all breakpoints and reduced-motion rules live here only)
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .latest-layout, .latest-trio, .cat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 700px) {
@@ -846,20 +952,5 @@ footer.brand img {
 
   .main-nav .nav-right {
     margin-left: 0;
-  }
-}
-
-@media (max-width: 900px) {
-    .latest-layout, .latest-trio, .cat-grid {
-    grid-template-columns: 1fr;
-  }
-  /* .latest-layout, .cat-grid {
-    grid-template-columns: 1fr;
-  } */
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
-  .footer-grid {
-    grid-template-columns: 1fr;
   }
 }

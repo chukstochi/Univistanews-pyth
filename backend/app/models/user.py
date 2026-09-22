@@ -23,6 +23,14 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    # New: forced password change for freshly-created accounts
+    must_change_password = db.Column(db.Boolean, default=False, nullable=False)
+    password_deadline = db.Column(db.DateTime, nullable=True)
+
+    # New: "forgot password" reset flow
+    reset_token = db.Column(db.String(255), nullable=True, index=True)
+    reset_token_expires = db.Column(db.DateTime, nullable=True)
+
     news_items = db.relationship("News", back_populates="author", lazy="dynamic")
 
     def set_password(self, raw_password: str):
@@ -42,6 +50,7 @@ class User(db.Model):
             "role": self.role,
             "bio": self.bio,
             "is_active": self.is_active,
+            "must_change_password": self.must_change_password,
             "created_at": self.created_at.isoformat() if self.created_at else None,
         }
         if include_email:

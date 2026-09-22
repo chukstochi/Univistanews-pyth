@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import client from "../../api/client";
+import { usePersistedForm } from "../../hooks/usePersistedForm";
+
+const BLANK_FORM = {
+  title: "", summary: "", body: "", image_url: "", video_url: "",
+  category_id: "", tag_ids: [], is_breaking: false, is_published: true,
+};
 
 export default function AdminNewsForm({ editing }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
-  const [form, setForm] = useState({
-    title: "", summary: "", body: "", image_url: "",
-    category_id: "", tag_ids: [], is_breaking: false, is_published: true,
-  });
+  const [form, setForm, clearDraft] = usePersistedForm(
+    editing ? `draft:edit-news-${id}` : "draft:new-news",
+    BLANK_FORM
+  );
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(!!editing);
@@ -24,12 +30,16 @@ export default function AdminNewsForm({ editing }) {
     if (editing && id) {
       client.get("/admin/news").then((res) => {
         const article = res.data.find((a) => String(a.id) === id);
-        if (article) {
+        // Only overwrite with server data if there's no saved draft already
+        // (i.e. this is the first time opening this edit page).
+        const hasDraft = localStorage.getItem(`draft:edit-news-${id}`);
+        if (article && !hasDraft) {
           setForm({
             title: article.title,
             summary: article.summary || "",
             body: article.body,
             image_url: article.image_url || "",
+            video_url: article.video_url || "",
             category_id: article.category?.id || "",
             tag_ids: article.tags.map((t) => t.id),
             is_breaking: article.is_breaking,
@@ -60,9 +70,11 @@ export default function AdminNewsForm({ editing }) {
       if (editing) {
         await client.put(`/author/news/${id}`, form); // admins are authorized on this route too
         setSuccess("Article updated.");
+        clearDraft();
       } else {
         await client.post("/author/news", form);
         setSuccess("Article published.");
+        clearDraft();
         setTimeout(() => navigate("/admin/news"), 800);
       }
     } catch (err) {
@@ -77,7 +89,7 @@ export default function AdminNewsForm({ editing }) {
       <h1>{editing ? "Edit News" : "Add News"}</h1>
       {error && <p className="error-msg">{error}</p>}
       {success && <p className="success-msg">{success}</p>}
-      <form onSubmit={handleSubmit} style={{ maxWidth: 640 }}>
+      <form id="news-form" onSubmit={handleSubmit} style={{ maxWidth: 640 }}>
         <div className="form-field">
           <label>Title</label>
           <input value={form.title} onChange={(e) => update("title", e.target.value)} required />
@@ -89,6 +101,10 @@ export default function AdminNewsForm({ editing }) {
         <div className="form-field">
           <label>Image URL</label>
           <input value={form.image_url} onChange={(e) => update("image_url", e.target.value)} placeholder="https://…" />
+        </div>
+        <div className="form-field">
+          <label>YouTube Video URL (optional)</label>
+          <input value={form.video_url} onChange={(e) => update("video_url", e.target.value)} placeholder="https://youtube.com/watch?v=…" />
         </div>
         <div className="form-field">
           <label>Category</label>
@@ -112,14 +128,17 @@ export default function AdminNewsForm({ editing }) {
           <label>Body</label>
           <textarea value={form.body} onChange={(e) => update("body", e.target.value)} required />
         </div>
-        <div className="form-field">
-          <label><input type="checkbox" checked={form.is_breaking} onChange={(e) => update("is_breaking", e.target.checked)} /> Mark as Breaking News (shows in ticker)</label>
-        </div>
-        <div className="form-field">
-          <label><input type="checkbox" checked={form.is_published} onChange={(e) => update("is_published", e.target.checked)} /> Published (visible to readers)</label>
-        </div>
-        <button type="submit" className="btn">{editing ? "Save Changes" : "Publish Article"}</button>
       </form>
+
+      <div className="form-sticky-bar">
+        <label>
+          <input type="checkbox" checked={form.is_breaking} onChange={(e) => update("is_breaking", e.target.checked)} /> Breaking
+        </label>
+        <label>
+          <input type="checkbox" checked={form.is_published} onChange={(e) => update("is_published", e.target.checked)} /> Published
+        </label>
+        <button type="submit" form="news-form" className="btn">{editing ? "Save Changes" : "Publish Article"}</button>
+      </div>
     </div>
   );
 }

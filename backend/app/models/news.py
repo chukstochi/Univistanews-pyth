@@ -12,6 +12,7 @@ class News(db.Model):
     summary = db.Column(db.String(500), nullable=True)
     body = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.String(500), nullable=True)
+    video_url = db.Column(db.String(500), nullable=True)
 
     is_breaking = db.Column(db.Boolean, default=False)   # shows in the news-flash ticker
     is_published = db.Column(db.Boolean, default=True)
@@ -33,6 +34,7 @@ class News(db.Model):
             "slug": self.slug,
             "summary": self.summary,
             "image_url": self.image_url,
+            "video_url": self.video_url,
             "is_breaking": self.is_breaking,
             "is_published": self.is_published,
             "category": self.category.to_dict() if self.category else None,

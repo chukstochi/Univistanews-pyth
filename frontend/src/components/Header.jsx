@@ -53,14 +53,14 @@ export default function Header() {
             <li><NavLink to="/services" className={({ isActive }) => (isActive ? "active" : "")}>Services</NavLink></li>
             <li><NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>About Us</NavLink></li>
             <li><NavLink to="/contact" className={({ isActive }) => (isActive ? "active" : "")}>Contact Us</NavLink></li>
-            <li className="nav-right">
-              {isAuthenticated && (
+                       {isAuthenticated && (
+              <li className="nav-right">
                 <NavLink to={isAdmin ? "/admin" : "/author"} className={({ isActive }) => (isActive ? "active" : "")}>
                   {isAdmin ? "Admin Dashboard" : `Hi, ${user?.name?.split(" ")[0]}`}
                 </NavLink>
-              )}
-            </li>
-             {isAuthenticated && (
+              </li>
+            )}
+            {isAuthenticated && (
               <li><button onClick={logout}>Logout</button></li>
             )} 
           </ul>

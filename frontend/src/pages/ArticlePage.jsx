@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import client from "../api/client";
+import { getYouTubeEmbedUrl, hasVideo } from "../utils/youtube";
 
 function formatDateTime(iso) {
   if (!iso) return "";
@@ -54,8 +55,20 @@ export default function ArticlePage() {
               )}
             </div>
 
-            {article.image_url && (
-              <img className="article-image" src={article.image_url} alt={article.title} />
+            {hasVideo(article) ? (
+              <div className="article-video">
+                <iframe
+                  src={getYouTubeEmbedUrl(article.video_url)}
+                  title={article.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            ) : (
+              article.image_url && (
+                <img className="article-image" src={article.image_url} alt={article.title} />
+              )
             )}
 
             <div className="article-body">{article.body}</div>
