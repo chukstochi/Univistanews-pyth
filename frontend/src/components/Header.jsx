@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import client from "../api/client";
@@ -9,6 +9,8 @@ export default function Header() {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
 
   useEffect(() => {
     client.get("/news/categories").then((res) => setCategories(res.data)).catch(() => {});
@@ -22,7 +24,7 @@ export default function Header() {
   }
 
   return (
-    <header className={isAuthenticated ? "site-header authed" : "site-header"}>
+      <header className={`site-header ${isAuthenticated ? "authed" : ""} ${isLoginPage ? "login-page-header" : ""}`}>
       <div className="utility-bar">
         <div className="container">
           <span>{new Date().toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>

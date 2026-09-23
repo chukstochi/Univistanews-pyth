@@ -1047,6 +1047,14 @@ footer .logo-tag {
   .site-header.authed .category-strip {
     display: none;
   }
+  .site-header.login-page-header .public-link,
+  .site-header.login-page-header .category-strip,
+  .site-header.login-page-header .nav-right {
+    display: none;
+  }
+  .site-header.login-page-header .search-form {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
