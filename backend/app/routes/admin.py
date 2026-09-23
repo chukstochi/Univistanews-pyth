@@ -125,4 +125,111 @@ def delete_author(author_id):
 
 
 # ---------- CATEGORIES ----------
-# (unchanged — everything below this stays exactly as it already is in your file)
+
+@admin_bp.route("/categories", methods=["POST"])
+@role_required("admin")
+def add_category():
+    data = request.get_json(silent=True) or {}
+    name = (data.get("name") or "").strip()
+    if not name:
+        return jsonify({"error": "name is required"}), 400
+    if Category.query.filter_by(name=name).first():
+        return jsonify({"error": "Category already exists"}), 409
+
+    category = Category(name=name, slug=slugify(name), description=data.get("description"))
+    db.session.add(category)
+    db.session.commit()
+    return jsonify(category.to_dict()), 201
+
+
+@admin_bp.route("/categories/<int:cat_id>", methods=["PUT"])
+@role_required("admin")
+def edit_category(cat_id):
+    category = Category.query.get(cat_id)
+    if not category:
+        return jsonify({"error": "Category not found"}), 404
+    data = request.get_json(silent=True) or {}
+    if "name" in data and data["name"].strip():
+        category.name = data["name"].strip()
+        category.slug = slugify(category.name)
+    if "description" in data:
+        category.description = data["description"]
+    db.session.commit()
+    return jsonify(category.to_dict()), 200
+
+
+@admin_bp.route("/categories/<int:cat_id>", methods=["DELETE"])
+@role_required("admin")
+def delete_category(cat_id):
+    category = Category.query.get(cat_id)
+    if not category:
+        return jsonify({"error": "Category not found"}), 404
+    if category.news_items.count() > 0:
+        return jsonify({"error": "Cannot delete a category that still has news articles"}), 400
+    db.session.delete(category)
+    db.session.commit()
+    return jsonify({"message": "Category deleted"}), 200
+
+
+# ---------- TAGS ----------
+
+@admin_bp.route("/tags", methods=["POST"])
+@role_required("admin")
+def add_tag():
+    data = request.get_json(silent=True) or {}
+    name = (data.get("name") or "").strip()
+    if not name:
+        return jsonify({"error": "name is required"}), 400
+    if Tag.query.filter_by(name=name).first():
+        return jsonify({"error": "Tag already exists"}), 409
+
+    tag = Tag(name=name, slug=slugify(name))
+    db.session.add(tag)
+    db.session.commit()
+    return jsonify(tag.to_dict()), 201
+
+
+@admin_bp.route("/tags/<int:tag_id>", methods=["PUT"])
+@role_required("admin")
+def edit_tag(tag_id):
+    tag = Tag.query.get(tag_id)
+    if not tag:
+        return jsonify({"error": "Tag not found"}), 404
+    data = request.get_json(silent=True) or {}
+    if "name" in data and data["name"].strip():
+        tag.name = data["name"].strip()
+        tag.slug = slugify(tag.name)
+    db.session.commit()
+    return jsonify(tag.to_dict()), 200
+
+
+@admin_bp.route("/tags/<int:tag_id>", methods=["DELETE"])
+@role_required("admin")
+def delete_tag(tag_id):
+    tag = Tag.query.get(tag_id)
+    if not tag:
+        return jsonify({"error": "Tag not found"}), 404
+    db.session.delete(tag)
+    db.session.commit()
+    return jsonify({"message": "Tag deleted"}), 200
+
+
+# ---------- NEWS (admin has full control, including delete) ----------
+
+@admin_bp.route("/news", methods=["GET"])
+@role_required("admin")
+def list_all_news():
+    items = News.query.order_by(News.created_at.desc()).all()
+    return jsonify([n.to_dict(detailed=True) for n in items]), 200
+
+
+@admin_bp.route("/news/<int:news_id>", methods=["DELETE"])
+@role_required("admin")
+def delete_news(news_id):
+    """Only the admin can delete news. Authors can add/edit but never delete (see routes/author.py)."""
+    news = News.query.get(news_id)
+    if not news:
+        return jsonify({"error": "Article not found"}), 404
+    db.session.delete(news)
+    db.session.commit()
+    return jsonify({"message": "Article deleted"}), 200
