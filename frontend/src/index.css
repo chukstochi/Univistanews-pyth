@@ -441,6 +441,39 @@ button {
   gap: 22px;
 }
 
+.cat-featured {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 26px;
+  align-items: center;
+}
+
+.cat-featured-media img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  background: var(--rule);
+}
+
+.cat-featured-body h3 {
+  font-family: var(--serif);
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 0 0 10px;
+}
+
+.cat-featured-body h3 a:hover {
+  color: var(--crimson);
+}
+
+.cat-featured-body p {
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+
+
 .news-card img {
   width: 100%;
   height: 130px;
@@ -1018,6 +1051,10 @@ footer .logo-tag {
   .search-input {
     flex: 1;
     width: auto;
+  }
+
+  .cat-featured {
+    grid-template-columns: 1fr;
   }
 
   .utility-bar .container {

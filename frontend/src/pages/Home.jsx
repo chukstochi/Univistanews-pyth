@@ -22,7 +22,7 @@ export default function Home() {
   useEffect(() => {
     Promise.all([
       client.get("/news/latest"),
-      client.get("/news/by-category-preview?limit=4"),
+      client.get("/news/by-category-preview?limit=5"),
     ])
       .then(([latestRes, catRes]) => {
         setLatest(latestRes.data);
@@ -113,16 +113,35 @@ export default function Home() {
                 <Link to={`/category/${category.slug}`}>See all →</Link>
               </div>
               {items.length > 0 ? (
-                <div className="cat-grid">
-                  {items.map((article) => (
-                    <NewsCard key={article.id} article={article} />
-                  ))}
-                </div>
+                <>
+                  <article className="cat-featured">
+                    <Link to={`/article/${items[0].slug}`} className="cat-featured-media">
+                      {getThumbnailUrl(items[0]) && (
+                        <div className="thumb-wrap">
+                          <img src={getThumbnailUrl(items[0])} alt={items[0].title} />
+                          {hasVideo(items[0]) && <span className="play-badge" />}
+                        </div>
+                      )}
+                    </Link>
+                    <div className="cat-featured-body">
+                      <h3><Link to={`/article/${items[0].slug}`}>{items[0].title}</Link></h3>
+                      <p>{items[0].summary}</p>
+                    </div>
+                  </article>
+
+                  {items.length > 1 && (
+                    <div className="cat-grid">
+                      {items.slice(1, 5).map((article) => (
+                        <NewsCard key={article.id} article={article} />
+                      ))}
+                    </div>
+                  )}
+                </>
               ) : (
                 <p className="empty-state" style={{ padding: "10px 0" }}>No {category.name} articles yet.</p>
               )}
             </section>
-            {/* {index % 2 === 1 && <AdSlot size="rectangle" />} */}
+            {index % 2 === 1 && <AdSlot size="rectangle" />}
           </div>
         ))}
       </div>
