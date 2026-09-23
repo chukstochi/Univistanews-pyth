@@ -141,7 +141,7 @@ export default function Home() {
                 <p className="empty-state" style={{ padding: "10px 0" }}>No {category.name} articles yet.</p>
               )}
             </section>
-            {index % 2 === 1 && <AdSlot size="rectangle" />}
+            {/* {index % 2 === 1 && <AdSlot size="rectangle" />} */}
           </div>
         ))}
       </div>
