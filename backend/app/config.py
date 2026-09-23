@@ -21,9 +21,8 @@ class Config:
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "dev-jwt-secret-change-me")
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=8)
 
-    MAIL_USERNAME = os.getenv("MAIL_USERNAME")
-    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
-    MAIL_FROM = os.getenv("MAIL_FROM")
+    RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+    MAIL_FROM = os.getenv("MAIL_FROM", "Univista News <onboarding@resend.dev>")
 
     # Comma-separated list of allowed frontend origins for CORS in production,
     # e.g. "https://www.yourdomain.com,https://yourdomain.com"
