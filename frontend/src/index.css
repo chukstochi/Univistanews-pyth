@@ -394,11 +394,18 @@ button {
   margin: 0;
 }
 
+.sidebar-item .thumb-wrap {
+  width: 72px;
+  height: 56px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
 .sidebar-thumb {
   width: 72px;
   height: 56px;
   object-fit: cover;
-  flex-shrink: 0;
+  display: block;
   background: var(--rule);
 }
 
