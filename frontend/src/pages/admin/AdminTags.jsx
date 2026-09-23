@@ -89,6 +89,7 @@ export default function AdminTags() {
       {loading && <div className="loading">Loading…</div>}
       {!loading && tags.length === 0 && <p className="empty-state">No tags yet.</p>}
       {tags.length > 0 && (
+        <div className="table-scroll">
         <table className="data-table">
           <thead><tr><th>Name</th><th>Slug</th><th>Actions</th></tr></thead>
           <tbody>
@@ -104,6 +105,7 @@ export default function AdminTags() {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

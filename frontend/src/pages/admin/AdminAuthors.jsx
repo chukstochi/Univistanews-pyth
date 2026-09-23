@@ -150,6 +150,7 @@ export default function AdminAuthors() {
       {loading && <div className="loading">Loading…</div>}
       {!loading && staff.length === 0 && <p className="empty-state">No team members yet.</p>}
       {staff.length > 0 && (
+        <div className="table-scroll">
         <table className="data-table">
           <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody>
@@ -169,6 +170,7 @@ export default function AdminAuthors() {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

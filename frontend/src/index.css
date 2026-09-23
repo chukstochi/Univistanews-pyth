@@ -27,6 +27,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden; 
 }
 
 body {
@@ -756,6 +757,10 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--ink-soft);
+} 
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .action-link {

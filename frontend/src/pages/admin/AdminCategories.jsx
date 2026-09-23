@@ -93,6 +93,7 @@ export default function AdminCategories() {
       {loading && <div className="loading">Loading…</div>}
       {!loading && categories.length === 0 && <p className="empty-state">No categories yet.</p>}
       {categories.length > 0 && (
+        <div className="table-scroll">
         <table className="data-table">
           <thead><tr><th>Name</th><th>Slug</th><th>Description</th><th>Actions</th></tr></thead>
           <tbody>
@@ -109,6 +110,7 @@ export default function AdminCategories() {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

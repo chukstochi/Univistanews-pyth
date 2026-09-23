@@ -34,6 +34,7 @@ export default function AdminNews() {
       {loading && <div className="loading">Loading…</div>}
       {!loading && items.length === 0 && <p className="empty-state">No articles yet.</p>}
       {items.length > 0 && (
+        <div className="table-scroll">
         <table className="data-table">
           <thead>
             <tr><th>Title</th><th>Category</th><th>Author</th><th>Status</th><th>Date</th><th>Actions</th></tr>
@@ -54,6 +55,7 @@ export default function AdminNews() {
             ))}
           </tbody>
         </table>
+      </div>
       )}
     </div>
   );
