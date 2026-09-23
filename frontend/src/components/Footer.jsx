@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Logo from "./Logo";
 
 const SOCIAL_LINKS = [
   {
@@ -43,7 +44,8 @@ export default function Footer() {
   return (
     <footer>
       <div className="container">
-      <div className="brand"><img src="/logo.jpg" alt="Univista News Hub" /></div>
+        <div className="brand"><Logo variant="full" /></div>
+      {/* <div className="brand"><img src="/logo.jpg" alt="Univista News Hub" /></div> */}
         <div className="footer-grid">
           <p style={{ color: "#aebdd0", maxWidth: 360 }}>
             Univista News delivers accurate, timely reporting across Nigeria, the US,

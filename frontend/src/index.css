@@ -207,7 +207,7 @@ button {
 .ticker-track {
   display: flex;
   white-space: nowrap;
-  animation: ticker-scroll 90s linear infinite;
+  animation: ticker-scroll 60s linear infinite;
 }
 
 .ticker-track span {
@@ -791,15 +791,6 @@ footer {
   font-size: 13px;
 }
 
-footer .brand {
-  color: #fff;
-  font-size: 22px;
-}
-
-footer .brand span {
-  color: #ff6b6b;
-}
-
 footer .brand img {
   height: 42px;
 }
@@ -838,6 +829,61 @@ footer .brand img {
 
 .footer-social a:hover {
   color: #fff;
+}
+
+/* Footer sits on dark navy — flip everything to light */
+footer .logo,
+footer .logo-icon,
+footer .logo-wordmark {
+  color: #fff;
+}
+footer .logo-tag {
+  fill: #aebdd0;
+}
+footer .logo-accent {
+  color: #ff6b6b;
+}
+
+footer .logo-tag {
+  fill: #aebdd0;
+  stroke: #aebdd0;
+}
+/* ==========================================================================
+    LOGO COMPONENT
+   ========================================================================== */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--navy);
+}
+
+.logo-icon {
+  width: 120px;
+  height: auto;
+  color: var(--navy);
+}
+
+.logo-tag {
+  fill: var(--ink-soft);
+}
+
+.logo-wordmark {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: var(--navy);
+}
+
+.logo-accent {
+  color: var(--crimson);
+}
+
+.logo-tag {
+  fill: var(--ink-soft);
+  stroke: var(--ink-soft);
 }
 
 /* ==========================================================================

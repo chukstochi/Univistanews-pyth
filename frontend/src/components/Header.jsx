@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import client from "../api/client";
+import Logo from "./Logo";
 
 export default function Header() {
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
@@ -31,7 +32,8 @@ export default function Header() {
 
       <div className="masthead">
         <div className="container">
-         <NavLink to="/" className="brand"><img src="/logo.jpg" alt="Univista News Hub" /></NavLink>
+          <NavLink to="/" className="brand"><Logo variant="full" /></NavLink>
+         {/* <NavLink to="/" className="brand"><img src="/logo.jpg" alt="Univista News Hub" /></NavLink> */}
                     <form onSubmit={handleSearch} className="search-form">
             <input
               type="text"
