@@ -1,4 +1,5 @@
 import secrets
+import threading
 from datetime import datetime, timedelta
 from flask import Blueprint, request, jsonify, current_app
 from app.extensions import db
@@ -11,7 +12,6 @@ from app.utils.slugify import slugify
 from app.utils.mailer import send_email
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/api/admin")
-
 
 # ---------- STAFF (authors + admins) ----------
 
@@ -49,25 +49,34 @@ def add_author():
     db.session.add(new_user)
     db.session.commit()
 
+    # Send the welcome email in a background thread so a slow/hanging email
+    # provider can never delay or block this API response.
     login_url = f"{current_app.config['FRONTEND_ORIGIN']}/login"
     role_label = "an administrator" if role == "admin" else "an author"
-    send_email(
-        to_email=email,
-        subject="Welcome to Univista News — your account is ready",
-        html_body=f"""
-            <p>Hi {name},</p>
-            <p>Congratulations — you've been added as {role_label} on <strong>Univista News</strong>.</p>
-            <p>Here are your login details:</p>
-            <p>
-                Email: <strong>{email}</strong><br>
-                Temporary password: <strong>{temp_password}</strong>
-            </p>
-            <p><a href="{login_url}">Click here to log in</a></p>
-            <p><strong>Important:</strong> for security, you must change this password within
-            24 hours of receiving this email. If you don't, you'll need to use the
-            "Forgot password" link on the login page to reset it instead.</p>
-        """,
-    )
+    html_body = f"""
+        <p>Hi {name},</p>
+        <p>Congratulations — you've been added as {role_label} on <strong>Univista News</strong>.</p>
+        <p>Here are your login details:</p>
+        <p>
+            Email: <strong>{email}</strong><br>
+            Temporary password: <strong>{temp_password}</strong>
+        </p>
+        <p><a href="{login_url}">Click here to log in</a></p>
+        <p><strong>Important:</strong> for security, you must change this password within
+        24 hours of receiving this email. If you don't, you'll need to use the
+        "Forgot password" link on the login page to reset it instead.</p>
+    """
+    app_obj = current_app._get_current_object()
+
+    def _send_in_background():
+        with app_obj.app_context():
+            send_email(
+                to_email=email,
+                subject="Welcome to Univista News — your account is ready",
+                html_body=html_body,
+            )
+
+    threading.Thread(target=_send_in_background, daemon=True).start()
 
     return jsonify(new_user.to_dict(include_email=True)), 201
 
