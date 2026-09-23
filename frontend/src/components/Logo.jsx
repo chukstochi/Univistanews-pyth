@@ -4,7 +4,7 @@ export default function Logo({ variant = "full", className = "" }) {
       <svg className="logo-icon" viewBox="-25 -25 240 250" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <path id="logoTopArc" d="M 12,95 A 78,78 0 0 1 168,95" fill="none" />
-          <path id="logoBottomArc" d="M 190,95 A 100,100 0 0 1 -10,95" fill="none" />
+          <path id="logoBottomArc" d="M -10,95 A 100,100 0 0 0 190,95" fill="none" />
         </defs>
 
           <text fontFamily="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" fontSize="12" fontWeight="700" letterSpacing="2" className="logo-tag" stroke="currentColor" strokeWidth="0.6" paintOrder="stroke fill">

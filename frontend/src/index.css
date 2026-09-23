@@ -729,6 +729,7 @@ button {
 .dash-main {
   padding: 32px 40px;
   background: var(--paper);
+  min-width: 0;
 }
 
 .dash-main h1 {
