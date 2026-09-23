@@ -22,7 +22,7 @@ export default function Header() {
   }
 
   return (
-    <header>
+    <header className={isAuthenticated ? "site-header authed" : "site-header"}>
       <div className="utility-bar">
         <div className="container">
           <span>{new Date().toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>
@@ -33,8 +33,7 @@ export default function Header() {
       <div className="masthead">
         <div className="container">
           <NavLink to="/" className="brand"><Logo variant="full" /></NavLink>
-         {/* <NavLink to="/" className="brand"><img src="/logo.jpg" alt="Univista News Hub" /></NavLink> */}
-                    <form onSubmit={handleSearch} className="search-form">
+          <form onSubmit={handleSearch} className="search-form">
             <input
               type="text"
               placeholder="Search news…"
@@ -44,18 +43,17 @@ export default function Header() {
             />
             <button type="submit" className="btn btn-secondary search-btn">Search</button>
           </form>
-         
         </div>
       </div>
 
       <nav className="main-nav">
         <div className="container">
           <ul>
-            <li><NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>Home</NavLink></li>
-            <li><NavLink to="/services" className={({ isActive }) => (isActive ? "active" : "")}>Services</NavLink></li>
-            <li><NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>About Us</NavLink></li>
-            <li><NavLink to="/contact" className={({ isActive }) => (isActive ? "active" : "")}>Contact Us</NavLink></li>
-                       {isAuthenticated && (
+            <li className="public-link"><NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>Home</NavLink></li>
+            <li className="public-link"><NavLink to="/services" className={({ isActive }) => (isActive ? "active" : "")}>Services</NavLink></li>
+            <li className="public-link"><NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>About Us</NavLink></li>
+            <li className="public-link"><NavLink to="/contact" className={({ isActive }) => (isActive ? "active" : "")}>Contact Us</NavLink></li>
+            {isAuthenticated && (
               <li className="nav-right">
                 <NavLink to={isAdmin ? "/admin" : "/author"} className={({ isActive }) => (isActive ? "active" : "")}>
                   {isAdmin ? "Admin Dashboard" : `Hi, ${user?.name?.split(" ")[0]}`}
@@ -64,7 +62,7 @@ export default function Header() {
             )}
             {isAuthenticated && (
               <li><button onClick={logout}>Logout</button></li>
-            )} 
+            )}
           </ul>
         </div>
       </nav>

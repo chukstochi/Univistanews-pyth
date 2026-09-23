@@ -1035,4 +1035,22 @@ footer .logo-tag {
   .main-nav .nav-right {
     margin-left: 0;
   }
+
+  .site-header.authed .public-link,
+  .site-header.authed .category-strip {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-sticky-bar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .form-sticky-bar .btn {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+  }
 }
