@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import jsonify
+from flask import jsonify, request
 from flask_jwt_extended import verify_jwt_in_request, get_jwt, get_jwt_identity
 from app.models.user import User
 
@@ -12,6 +12,12 @@ def role_required(*allowed_roles):
     def decorator(fn):
         @wraps(fn)
         def wrapper(*args, **kwargs):
+            # Let CORS preflight (OPTIONS) requests through untouched —
+            # they carry no auth token, and blocking them here breaks the
+            # browser's preflight check for every real request that follows.
+            if request.method == "OPTIONS":
+                return fn(*args, **kwargs)
+
             verify_jwt_in_request()
             claims = get_jwt()
             role = claims.get("role")
